@@ -1,5 +1,5 @@
 /**
- *	* https://github.com/tongyy/react-native-draggable
+ *  * https://github.com/tongyy/react-native-draggable
  *
  */
 
@@ -54,6 +54,7 @@ interface IProps {
     minY?: number;
     maxX?: number;
     maxY?: number;
+    scale?: number;
   };
 
 export default function Draggable(props: IProps) {
@@ -83,6 +84,7 @@ export default function Draggable(props: IProps) {
     minY,
     maxX,
     maxY,
+    scale = 1,
   } = props;
 
   // The Animated object housing our xy value so that we can spring back
@@ -164,10 +166,10 @@ export default function Draggable(props: IProps) {
         Number.isFinite(minY) ? minY - top : -far,
         Number.isFinite(maxY) ? maxY - bottom : far,
       );
-      pan.current.setValue({x: changeX, y: changeY});
+      pan.current.setValue({x: changeX / scale, y: changeY / scale});
       onDrag(e, gestureState);
     },
-    [maxX, maxY, minX, minY, onDrag],
+    [maxX, maxY, minX, minY, onDrag, scale],
   );
 
   const panResponder = React.useMemo(() => {
@@ -333,6 +335,7 @@ Draggable.defaultProps = {
   x: 0,
   y: 0,
   z: 1,
+  scale: 1,
 };
 
 const styles = StyleSheet.create({
